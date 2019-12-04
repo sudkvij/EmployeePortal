@@ -4,6 +4,8 @@ import com.socgen.employeePortal.domain.Employee;
 import com.socgen.employeePortal.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,39 +19,22 @@ public class EmployeeService {
         return (List<Employee>)this.employeeRepository.findAll();
     }
 
-    public Employee createOrUpdateEmployee(Employee employee)
-    {
-        Optional<Employee> employeeRec = employeeRepository.findById(employee.getId());
-        try {
-            if (employeeRec.isPresent()) {
-                Employee updEmployeeRec = employeeRec.get();
-                updEmployeeRec.setFirstName(employee.getFirstName());
-                updEmployeeRec.setLastName(employee.getLastName());
-                updEmployeeRec.setGender(employee.getGender());
-                updEmployeeRec.setDepartment(employee.getDepartment());
-                updEmployeeRec.setDob(employee.getDob());
-                updEmployeeRec = employeeRepository.save(updEmployeeRec);
-                return updEmployeeRec;
-            } else {
-                    Employee newEmployeeRec = employeeRepository.save(employee);
-                    return newEmployeeRec;
-                }
-            } catch (Exception ex) {
-                    throw ex;
-                }
+    public Employee createEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
-    public void deleteEmployee(Long id)
+    public Optional<Employee> getEmployeeById(Long id)  {
+        return employeeRepository.findById(id);
+    }
+
+    public Employee updateEmployee(Employee employee)
     {
-        Optional<Employee> employee = employeeRepository.findById(id);
-        try {
-            if (employee.isPresent()) {
-                employeeRepository.deleteById(id);
-            }
-            }
-                catch (Exception ex) {
-                    throw ex;
-                }
-        }
+        return employeeRepository.save(employee);
+
+    }
+
+    public void deleteEmployee(Long id) {
+        employeeRepository.deleteById(id);
+    }
  }
 

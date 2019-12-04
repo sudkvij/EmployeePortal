@@ -7,7 +7,7 @@ import java.util.Date;
 @Table(name="socgen_employees",schema = "socgen")
 public class Employee {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
     @Column(name="first_name")
@@ -25,7 +25,8 @@ public class Employee {
 
     }
 
-    public Employee(String firstName, String lastName, String gender, Date dob, String department) {
+    public Employee(Long id, String firstName, String lastName, String gender, Date dob, String department) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
